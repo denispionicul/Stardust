@@ -1,10 +1,8 @@
 --!strict
 -- Version 1.0.0
 
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-
-local Signal = require(ReplicatedStorage.Packages.Signal)
-local Promise = require(ReplicatedStorage.Packages.Promise)
+local Signal = require(script.Parent.Signal)
+local Promise = require(script.Parent.Promise)
 
 -- Types
 type Properties = {
