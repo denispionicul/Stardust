@@ -42,8 +42,8 @@ end)
 
 -- function 1 will run, then the 2nd one
 ```"><link data-rh="true" rel="canonical" href="https://denispionicul.github.io/Stardust/api/Queue"><link data-rh="true" rel="alternate" href="https://denispionicul.github.io/Stardust/api/Queue" hreflang="en"><link data-rh="true" rel="alternate" href="https://denispionicul.github.io/Stardust/api/Queue" hreflang="x-default"><link rel="stylesheet" href="/Stardust/assets/css/styles.19a5646f.css">
-<link rel="preload" href="/Stardust/assets/js/runtime~main.59c1ff6b.js" as="script">
-<link rel="preload" href="/Stardust/assets/js/main.9d28bfd9.js" as="script">
+<link rel="preload" href="/Stardust/assets/js/runtime~main.8ebc5e52.js" as="script">
+<link rel="preload" href="/Stardust/assets/js/main.f35a7628.js" as="script">
 </head>
 <body class="navigation-with-keyboard">
 <script>!function(){function e(e){document.documentElement.setAttribute("data-theme",e)}var t=function(){var e=null;try{e=localStorage.getItem("theme")}catch(e){}return e}();null!==t?e(t):window.matchMedia("(prefers-color-scheme: dark)").matches?e("dark"):(window.matchMedia("(prefers-color-scheme: light)").matches,e("light"))}()</script><div id="__docusaurus">
@@ -72,13 +72,17 @@ QueueClass<span class="token punctuation">:</span><span class="token function">A
 	<span class="token function">print</span><span class="token punctuation">(</span><span class="token string">"Queue emptied!"</span><span class="token punctuation">)</span>
 <span class="token keyword">end</span><span class="token punctuation">)</span>
 </code></pre>
-</div><h2 class="anchor anchorWithStickyNavbar_LWe7" id="functions">Functions<a href="#functions" class="hash-link" aria-label="Direct link to Functions" title="Direct link to Functions">​</a></h2><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="Add"><code style="text-decoration:none">Add</code><a href="#Add" class="hash-link" aria-label="Direct link to Add" title="Direct link to Add">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/denispionicul/Stardust/blob/main/src/Queue/init.lua#L67"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Queue<!-- -->:</code><code class="green_DgR4">Add</code><code>(</code><code>func<!-- -->: </code><code class="purple_ieR2">(</code><code class="purple_ieR2">)</code><code class="purple_ieR2"> → </code><code class="purple_ieR2">(</code><code class="purple_ieR2">)</code><code>) → </code><code>(</code><code>)</code></div><div>
+</div><h2 class="anchor anchorWithStickyNavbar_LWe7" id="functions">Functions<a href="#functions" class="hash-link" aria-label="Direct link to Functions" title="Direct link to Functions">​</a></h2><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="new"><code style="text-decoration:none">new</code><a href="#new" class="hash-link" aria-label="Direct link to new" title="Direct link to new">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/denispionicul/Stardust/blob/main/src/Queue/init.lua#L97"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Queue<!-- -->.</code><code class="green_DgR4">new</code><code>(</code><code>) → </code><code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="/Stardust/api/Queue">Queue</a></code></div><div>
+<p>Returns a new queue.</p>
+</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="Add"><code style="text-decoration:none">Add</code><a href="#Add" class="hash-link" aria-label="Direct link to Add" title="Direct link to Add">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/denispionicul/Stardust/blob/main/src/Queue/init.lua#L67"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Queue<!-- -->:</code><code class="green_DgR4">Add</code><code>(</code><code>func<!-- -->: </code><code class="purple_ieR2">(</code><code class="purple_ieR2">)</code><code class="purple_ieR2"> → </code><code class="purple_ieR2">(</code><code class="purple_ieR2">)</code><code>) → </code><code>(</code><code>)</code></div><div>
 <p>Adds a function to the queue.</p>
 </div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="Stop"><code style="text-decoration:none">Stop</code><a href="#Stop" class="hash-link" aria-label="Direct link to Stop" title="Direct link to Stop">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/denispionicul/Stardust/blob/main/src/Queue/init.lua#L86"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Queue<!-- -->:</code><code class="green_DgR4">Stop</code><code>(</code><code>) → </code><code>(</code><code>)</code></div><div>
 <p>
   Clears all current functions in the queue and empties it.
   The emptied event won't fire in here.
 </p>
+</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="Destroy"><code style="text-decoration:none">Destroy</code><a href="#Destroy" class="hash-link" aria-label="Direct link to Destroy" title="Direct link to Destroy">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/denispionicul/Stardust/blob/main/src/Queue/init.lua#L110"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Queue<!-- -->:</code><code class="green_DgR4">Destroy</code><code>(</code><code>) → </code><code>(</code><code>)</code></div><div>
+<p>Destroys the queue.</p>
 </div></div></article></div><details><summary>Show raw api</summary><pre style="max-width:100%;white-space:pre-wrap">{
     &quot;functions&quot;: [
         {
@@ -108,6 +112,33 @@ QueueClass<span class="token punctuation">:</span><span class="token function">A
                 &quot;line&quot;: 86,
                 &quot;path&quot;: &quot;src/Queue/init.lua&quot;
             }
+        },
+        {
+            &quot;name&quot;: &quot;new&quot;,
+            &quot;desc&quot;: &quot;Returns a new queue.&quot;,
+            &quot;params&quot;: [],
+            &quot;returns&quot;: [
+                {
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;Queue\r\n&quot;
+                }
+            ],
+            &quot;function_type&quot;: &quot;static&quot;,
+            &quot;source&quot;: {
+                &quot;line&quot;: 97,
+                &quot;path&quot;: &quot;src/Queue/init.lua&quot;
+            }
+        },
+        {
+            &quot;name&quot;: &quot;Destroy&quot;,
+            &quot;desc&quot;: &quot;Destroys the queue.&quot;,
+            &quot;params&quot;: [],
+            &quot;returns&quot;: [],
+            &quot;function_type&quot;: &quot;method&quot;,
+            &quot;source&quot;: {
+                &quot;line&quot;: 110,
+                &quot;path&quot;: &quot;src/Queue/init.lua&quot;
+            }
         }
     ],
     &quot;properties&quot;: [
@@ -128,8 +159,8 @@ QueueClass<span class="token punctuation">:</span><span class="token function">A
         &quot;line&quot;: 47,
         &quot;path&quot;: &quot;src/Queue/init.lua&quot;
     }
-}</pre></details></div><div class="col col--3"><div class="tableOfContents_bqdL thin-scrollbar"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#types" class="table-of-contents__link toc-highlight">Types</a></li><li><a href="#properties" class="table-of-contents__link toc-highlight">Properties</a><ul><li><a href="#Emptied" class="table-of-contents__link toc-highlight">Emptied</a></li></ul></li><li><a href="#functions" class="table-of-contents__link toc-highlight">Functions</a><ul><li><a href="#Add" class="table-of-contents__link toc-highlight">:Add</a></li><li><a href="#Stop" class="table-of-contents__link toc-highlight">:Stop</a></li></ul></li></ul></div></div></div></div></main></div></div><footer class="footer footer--dark"><div class="container container-fluid"><div class="footer__bottom text--center"><div class="footer__copyright">Copyright © 2023 denispionicul. Built with Moonwave and Docusaurus.</div></div></div></footer></div>
-<script src="/Stardust/assets/js/runtime~main.59c1ff6b.js"></script>
-<script src="/Stardust/assets/js/main.9d28bfd9.js"></script>
+}</pre></details></div><div class="col col--3"><div class="tableOfContents_bqdL thin-scrollbar"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#types" class="table-of-contents__link toc-highlight">Types</a></li><li><a href="#properties" class="table-of-contents__link toc-highlight">Properties</a><ul><li><a href="#Emptied" class="table-of-contents__link toc-highlight">Emptied</a></li></ul></li><li><a href="#functions" class="table-of-contents__link toc-highlight">Functions</a><ul><li><a href="#Add" class="table-of-contents__link toc-highlight">:Add</a></li><li><a href="#Destroy" class="table-of-contents__link toc-highlight">:Destroy</a></li><li><a href="#Stop" class="table-of-contents__link toc-highlight">:Stop</a></li><li><a href="#new" class="table-of-contents__link toc-highlight">.new</a></li></ul></li></ul></div></div></div></div></main></div></div><footer class="footer footer--dark"><div class="container container-fluid"><div class="footer__bottom text--center"><div class="footer__copyright">Copyright © 2023 denispionicul. Built with Moonwave and Docusaurus.</div></div></div></footer></div>
+<script src="/Stardust/assets/js/runtime~main.8ebc5e52.js"></script>
+<script src="/Stardust/assets/js/main.f35a7628.js"></script>
 </body>
 </html>
