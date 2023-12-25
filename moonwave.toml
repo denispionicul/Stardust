@@ -1,1 +1,5 @@
 gitSourceBranch = "main"
+
+[[classOrder]]
+section = "Ploder"
+classes = ["Ploder", "PloderBehavior"]
