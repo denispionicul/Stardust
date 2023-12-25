@@ -2,6 +2,7 @@
 
 Stardust is a collection of utilities for Roblox.
 
+| Module/Doc | Wally | Description |
 | --- | --- | --- |
 | [Cooldown](https://denispionicul.github.io/Stardust/api/Cooldown) | `"denispionicul/cooldown@1.4.0"` | A debounce utility module. |
 | [Ploder](https://denispionicul.github.io/Stardust/api/Ploder) | `denispionicul/ploder@1.2.0` | Custom explosion class. |
