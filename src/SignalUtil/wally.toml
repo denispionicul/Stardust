@@ -1,0 +1,8 @@
+[package]
+name = "denispionicul/signalutil"
+version = "1.0.0"
+registry = "https://github.com/UpliftGames/wally-index"
+description = "Utility functions for signals."
+realm = "shared"
+
+[dependencies]

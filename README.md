@@ -9,3 +9,4 @@ Stardust is a collection of utilities for Roblox.
 | [Queue](https://denispionicul.github.io/Stardust/api/Queue) | `"denispionicul/queue@1.0.0"` | Queue class for ordered function calling. |
 | [Stater](https://denispionicul.github.io/Stardust/api/Stater) | `denispionicul/stater@0.5.3` | A finite state machine. |
 | [Switch](https://denispionicul.github.io/Stardust/api/Switch) | `"denispionicul/switch@1.0.0"` | Java switches ported to luau. |
+| [SignalUtil](https://denispionicul.github.io/Stardust/api/SignalUtil) | `"denispionicul/signalutil@1.0.0"` | Utility functions for signals. |

@@ -91,6 +91,9 @@ function Queue:Stop()
 	table.clear(self._Queue)
 end
 
+--[=[
+	Returns a new queue.
+]=]
 function Queue.new(): Queue
 	local self = setmetatable({}, Queue)
 
@@ -101,6 +104,9 @@ function Queue.new(): Queue
 	return self
 end
 
+--[=[
+	Destroys the queue.
+]=]
 function Queue:Destroy()
 	self.Emptied:Destroy()
 	self:Stop()
