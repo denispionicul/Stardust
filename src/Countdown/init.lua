@@ -22,7 +22,7 @@ type Properties = {
 	Tick: Signal.Signal<number>
 }
 
-export type Countdown = typeof(setmetatable({} :: Module, {} :: Properties))
+export type Countdown = typeof(setmetatable({} :: Properties, {} :: Module))
 
 --[=[
 	@interface Countdown
@@ -44,6 +44,9 @@ export type Countdown = typeof(setmetatable({} :: Module, {} :: Properties))
 local Countdown: Module = {} :: Module
 Countdown.__index = Countdown
 
+--[=[
+	Creates a new countdown object.
+]=]
 function Countdown.new(Interval: number, StartingCount: number): Countdown
 	local self = setmetatable({}, Countdown)
 
@@ -72,7 +75,9 @@ function Countdown.new(Interval: number, StartingCount: number): Countdown
 	return self
 end
 
-
+--[=[
+	Destroys the countdown instance.
+]=]
 function Countdown:Destroy()
 	self._Trove:Destroy()
 	self = nil
