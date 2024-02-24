@@ -1,5 +1,6 @@
 {
   "name": "Stardust",
+  "globIgnorePaths": ["src/node_modules"],
   "tree": {
     "$className": "DataModel",
 

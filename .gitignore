@@ -9,3 +9,5 @@
 /wally.toml
 sourcemap.json
 /build
+node_modules
+index.d.ts
