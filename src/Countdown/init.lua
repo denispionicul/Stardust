@@ -1,6 +1,6 @@
-local Timer = require(game.ReplicatedStorage.Packages.Timer)
-local Signal = require(game.ReplicatedStorage.Packages.Signal)
-local Trove = require(game.ReplicatedStorage.Packages.Trove)
+local Timer = require(script.Parent.Timer)
+local Signal = require(script.Parent.Signal)
+local Trove = require(script.Parent.Trove)
 
 type Trove = typeof(Trove.new())
 type Timer = typeof(Timer.new(1))
@@ -27,13 +27,13 @@ export type Countdown = typeof(setmetatable({} :: Module, {} :: Properties))
 --[=[
 	@interface Countdown
 	@within Countdown
-	.Timer [Timer](https://sleitnick.github.io/RbxUtil/api/Timer) -- the timer object, should be used for starting the countdown and stopping it.
+	.Timer Timer -- the [Timer](https://sleitnick.github.io/RbxUtil/api/Timer) object, should be used for starting the countdown and stopping it.
 	.Count number -- The current number the countdown is at
 	.MaxCount number -- The maximum the count can reach
 	.Increment number -- The amount that the count decreases every tick
 	
-	.OnFinish [Signal](https://sleitnick.github.io/RbxUtil/api/Signal) -- Fires whenever the count reaches 0
-	.Tick [Signal](https://sleitnick.github.io/RbxUtil/api/Signal)<number> -- Same as the [Timer.Tick](https://sleitnick.github.io/RbxUtil/api/Timer/#Tick) property, but with the guarantee that it will fire after the count updates, it also returns the current count as a parameter.
+	.OnFinish Signal -- Fires whenever the count reaches 0
+	.Tick Signal<number> -- Same as the [Timer.Tick](https://sleitnick.github.io/RbxUtil/api/Timer/#Tick) property, but with the guarantee that it will fire after the count updates, it also returns the current count as a parameter.
 ]=]
 
 --[=[
