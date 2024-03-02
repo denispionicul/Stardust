@@ -1,9 +1,7 @@
 --!nonstrict
--- Version 0.5.3
+-- Version 1.0.0
 
 -- Dependencies
-local Option = require(script.Parent:FindFirstChild("Option") or script.Option)
-local Promise = require(script.Parent:FindFirstChild("Promise") or script.Promise)
 local Signal = require(script.Parent:FindFirstChild("Signal") or script.Signal)
 local Trove = require(script.Parent:FindFirstChild("Trove") or script.Trove)
 
@@ -113,18 +111,15 @@ end
 function Stater:RemoveState(Name: string)
     assert(type(Name) == "string", "The name must be a string.")
 
-    local RemovingState = Option.Wrap(self.States[Name])
+    local RemovingState = self.States[Name]
 
-    RemovingState:Match({
-        ["Some"] = function(Value)
-            Value = nil
-            self.States[Name] = nil
-            self.StateRemoved:Fire(Name)
-        end,
-        ["None"] = function()
-            warn("Given state " .. Name .. " does not exist.")
-        end,
-    })
+    if RemovingState then
+        RemovingState = nil
+        self.States[Name] = nil
+        self.StateRemoved:Fire(Name)
+    else
+        warn("Given state " .. Name .. " does not exist.")
+    end
 end
 
 --[=[
@@ -135,12 +130,12 @@ end
     @param State -- The State function itself.
     @error "Existing State" -- Happens when the name of the state is already inside the table.
 ]=]
-function Stater:AddState(Name: string, State: State)
+function Stater:AddState(Name: string, State: State<any>)
     assert(type(Name) == "string", "The name must be a string.")
     assert(type(State) == "function", "The State must be a function.")
 
-    local AlreadyExists = Option.Wrap(self.States[Name])
-    AlreadyExists:ExpectNone("There is already a State with that name, consider changing.")
+    local AlreadyExists = self.States[Name]
+    assert(AlreadyExists == nil, "There is already a State with that name, consider changing.")
 
     self.States[Name] = State
     self.StateAdded:Fire(Name)
@@ -171,24 +166,22 @@ end
 function Stater:SetState(State: string)
     assert(type(State) == "string", "Please provide a state when setting.")
 
-    local StateInStates = Option.Wrap(self.States[State])
+    local StateInStates = self.States[State]
+    assert(StateInStates ~= nil, "No state with the given name.")
 
-    StateInStates:Match({
-        ["Some"] = function(_)
-            local StartOption = Option.Wrap(self.States[State .. "Start"])
-            local EndOption = Option.Wrap(self.States[tostring(self.State) .. "End"])
+    local StartOption = self.States[State .. "Start"]
+    local EndOption = self.States[tostring(self.State) .. "End"]
 
-            StartOption:UnwrapOr(function(_) end)(self.Return)
-            EndOption:UnwrapOr(function(_) end)(self.Return)
-            self.Changed:Fire(State, self.State)
-            self.State = State
-        end,
-        ["None"] = function()
-            error("No State with the given name.")
-        end,
-    })
+    if StartOption then
+        StartOption(self.Return)
+    end
 
-    StateInStates = nil
+    if EndOption then
+        EndOption(self.Return)
+    end
+
+    self.Changed:Fire(State, self.State)
+    self.State = State
 end
 
 --[=[
@@ -210,29 +203,23 @@ function Stater:Start(StartingState: string)
     self.StatusChanged:Fire(true)
 
     self._Connections.Main = self._Trove
-        :AddPromise(Promise.try(function()
-            while true do
+        :Add(task.spawn(function()
+            while self.State ~= nil do
                 task.wait(self.Tick)
-                local StateOption = Option.Wrap(self.States[self.State])
+                local StateOption = self.States[self.State]
 
-                if StateOption:IsSome() then
-                    local Result = Option.Wrap(StateOption:Unwrap()(self.Return))
+                if StateOption then
+                    local Result = StateOption(self.Return)
 
-                    if self.StateConfirmation and (Result:IsNone() or Result:Contains(false)) then
+                    if self.StateConfirmation and (Result == false) then
                         warn("State returned false or nil, stopping...")
                         self:Stop()
                     end
-
-                    Result = nil
                 else
-                    warn("Current State is not set, Please consider setting a state.")
+                    warn("Current State is not set, Please consider setting a state. The state machine will be stopping.")
                 end
-                StateOption = nil
             end
         end))
-        :catch(function()
-            error("There was a problem starting, please try again.")
-        end)
 end
 
 --[=[
@@ -243,16 +230,21 @@ end
 function Stater:Stop()
     assert(self._Connections.Main ~= nil, "You cannot stop twice.")
 
-    local StopOption = Option.Wrap(self.States.End)
-    local EndOption = Option.Wrap(self.States[tostring(self.State) .. "End"])
+    local StopOption = self.States.End
+    local EndOption = self.States[tostring(self.State) .. "End"]
 
     self._Trove:Remove(self._Connections.Main)
-    self._Connections.Main:cancel()
+    task.cancel(self._Connections.Main)
     self._Connections.Main = nil
     self.State = nil
 
-    StopOption:UnwrapOr(function(_) end)(self.Return)
-    EndOption:UnwrapOr(function(_) end)(self.Return)
+    if StopOption then
+        StopOption(self.Return)
+    end
+
+    if EndOption then
+        EndOption(self.Return)
+    end
 
     self.StatusChanged:Fire(false)
 end
