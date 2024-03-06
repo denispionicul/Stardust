@@ -1,13 +1,13 @@
 local Queue = require(script.Parent)
 
-local Runs = 0
-
-local function Test()
-    Runs += 1
-	task.wait(5)
-end
-
 return function()
+    local Runs = 0
+
+    local function Test()
+        Runs += 1
+	    task.wait(5)
+    end
+
     describe("test", function()
         local Class = Queue.new()
         local Fired = false
@@ -31,7 +31,7 @@ return function()
         end)
 
         it("should stop", function()
-            Class:Add(Test)
+            Class:Add(function()  end)
 
             Class:Stop()
             expect(#Class._Queue).to.equal(0)

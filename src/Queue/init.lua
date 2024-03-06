@@ -1,13 +1,13 @@
 --!strict
--- Version 1.0.0
+-- Version 1.0.1
 
 local Signal = require(script.Parent.Signal)
-local Promise = require(script.Parent.Promise)
 
 -- Types
 type Properties = {
-	_Queue: { typeof(setmetatable({} :: any, Promise)) },
-	Emptied: Signal.Signal<nil>
+	_Queue: { () -> () },
+	_Task: thread?,
+	Emptied: Signal.Signal<>
 }
 
 type Module = {
@@ -65,18 +65,22 @@ Queue.__index = Queue
 	Adds a function to the queue.
 ]=]
 function Queue:Add(func: () -> ())
-	local PromiseQueue = self._Queue[#self._Queue] or Promise.resolve()
+	table.insert(self._Queue, func)
 
-	local Handler = PromiseQueue:andThenCall(func)
+	if self._Task == nil or coroutine.status(self._Task) == "dead" then
+		print("starting aaa")
+		self._Task = task.spawn(function()
+			repeat
+				print("repeat")
+				self._Queue[1]()
 
-	table.insert(self._Queue, Handler)
+				table.remove(self._Queue, 1)
+			until #self._Queue == 0
 
-	Handler:andThen(function()
-		table.remove(self._Queue, table.find(self._Queue, Handler))
-		if self._Queue[#self._Queue]:getStatus() == "Resolved" then
+			print("end")
 			self.Emptied:Fire()
-		end
-	end)
+		end)
+	end
 end
 
 --[=[
@@ -84,8 +88,8 @@ end
 	The emptied event won't fire in here.
 ]=]
 function Queue:Stop()
-	for _, Promise in self._Queue do
-		Promise:cancel()
+	if self._Task and coroutine.status(self._Task) == "running" then
+		task.cancel(self._Task)
 	end
 
 	table.clear(self._Queue)
@@ -98,6 +102,7 @@ function Queue.new(): Queue
 	local self = setmetatable({}, Queue)
 
 	self._Queue = {}
+	self._Task = nil
 
 	self.Emptied = Signal.new()
 
