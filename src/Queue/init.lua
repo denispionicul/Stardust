@@ -68,16 +68,13 @@ function Queue:Add(func: () -> ())
 	table.insert(self._Queue, func)
 
 	if self._Task == nil or coroutine.status(self._Task) == "dead" then
-		print("starting aaa")
 		self._Task = task.spawn(function()
 			repeat
-				print("repeat")
 				self._Queue[1]()
 
 				table.remove(self._Queue, 1)
 			until #self._Queue == 0
 
-			print("end")
 			self.Emptied:Fire()
 		end)
 	end
