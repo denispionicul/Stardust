@@ -1,5 +1,5 @@
 --!nonstrict
--- Version 1.0.0
+-- Version 1.0.1
 
 -- Dependencies
 local Signal = require(script.Parent:FindFirstChild("Signal") or script.Signal)
@@ -193,6 +193,10 @@ end
 ]=]
 function Stater:Start(StartingState: string)
     assert(type(StartingState) == "string", "Please provide a state when starting.")
+
+    if self._Connections.Main ~= nil then
+        return
+    end
     assert(self._Connections.Main == nil, "You cannot start twice.")
 
     if self.States["Init"] then
@@ -228,7 +232,9 @@ end
     @error "Already Stopped" -- Happens when the Stater has already been stopped.
 ]=]
 function Stater:Stop()
-    assert(self._Connections.Main ~= nil, "You cannot stop twice.")
+    if self._Connections.Main == nil then
+        return
+    end
 
     local StopOption = self.States.End
     local EndOption = self.States[tostring(self.State) .. "End"]
@@ -253,6 +259,7 @@ end
     Gets rid of the Stater Object.
 ]=]
 function Stater:Destroy()
+    self:Stop()
     self._Trove:Destroy()
     table.clear(self)
     self = nil

@@ -1,19 +1,21 @@
 --!strict
--- Version 1.0.2
+-- Version 1.1.0
 
 local Signal = require(script.Parent.Signal)
 
 -- Types
 type Properties = {
-	_Queue: { () -> () },
+	_Queue: { { ((...unknown) -> ...unknown) | unknown } },
 	_Task: thread?,
-	Emptied: Signal.Signal<>
+
+	Emptied: Signal.Signal<>,
+	Returned: Signal.Signal<...unknown>
 }
 
 type Module = {
 	__index: Module,
 	new: () -> Queue,
-	Add: (self: Queue, func: () -> ()) -> (),
+	Add: <T...>(self: Queue, func: (T...) -> ...any, T...) -> (),
 	Destroy: (self: Queue) -> (),
 	Stop: (self: Queue) -> ()
 }
@@ -58,19 +60,40 @@ export type Queue = typeof(setmetatable({} :: Properties, {} :: Module))
 	```
 ]=]
 
+--[=[
+	@prop Returned RBXScriptSignal
+	@within Queue
+
+	Fires whenever a function in the queue returns a value.
+
+	```lua
+	QueueClass.Returned:Connect(function(...)
+		print("Queue returned a value" )
+		print(...)
+	end)
+	```
+]=]
+
 local Queue: Module = {} :: Module
 Queue.__index = Queue
 
 --[=[
 	Adds a function to the queue.
 ]=]
-function Queue:Add(func: () -> ())
-	table.insert(self._Queue, func)
+function Queue:Add<T...>(func: (T...) -> (), ...)
+	local QueuePrompt = { func, ... } 
+
+	table.insert(self._Queue, QueuePrompt)
 
 	if self._Task == nil or coroutine.status(self._Task) == "dead" then
 		self._Task = task.spawn(function()
 			repeat
-				self._Queue[1]()
+				local QueueArray = self._Queue[1]
+				local Return = { (QueueArray[1] :: () -> ...unknown)(table.unpack(QueueArray, 2)) }
+
+				if #Return ~= 0 then
+					self.Returned:Fire(table.unpack(Return))
+				end
 
 				table.remove(self._Queue, 1)
 			until #self._Queue == 0
@@ -102,6 +125,7 @@ function Queue.new(): Queue
 	self._Task = nil
 
 	self.Emptied = Signal.new()
+	self.Returned = Signal.new()
 
 	return self
 end
@@ -110,8 +134,9 @@ end
 	Destroys the queue.
 ]=]
 function Queue:Destroy()
-	self.Emptied:Destroy()
 	self:Stop()
+	self.Returned:Destroy()
+	self.Emptied:Destroy()
 end
 
 return Queue
