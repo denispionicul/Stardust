@@ -6,14 +6,11 @@ local Signal = require(script.Parent.Signal)
 -- Types
 type QueueFunc<Args = unknown, Return = unknown> = { ((...Args) -> ...Return) | Args }
 
---[=[
-	@ignore
-]=]
 type QueueProperties = {
 	_Queue: { QueuePrompt },
 	_Task: thread?,
 
-	Emptied: Signal.Signal<>,
+	Emptied: Signal.Signal<nil>,
 	Returned: Signal.Signal<...unknown>
 }
 
