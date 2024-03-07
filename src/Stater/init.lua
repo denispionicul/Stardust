@@ -1,5 +1,5 @@
 --!nonstrict
--- Version 1.0.1
+-- Version 1.0.2
 
 -- Dependencies
 local Signal = require(script.Parent:FindFirstChild("Signal") or script.Signal)
@@ -189,7 +189,6 @@ end
 
     @param StartingState string -- The function name inside States represented by a string, this state will be set at the start.
     @error "No State" -- Happens when no State is provided.
-    @error "Already Started" -- Happens when the Stater has already started.
 ]=]
 function Stater:Start(StartingState: string)
     assert(type(StartingState) == "string", "Please provide a state when starting.")
@@ -228,8 +227,6 @@ end
 
 --[=[
     Stops the stater and its state.
-
-    @error "Already Stopped" -- Happens when the Stater has already been stopped.
 ]=]
 function Stater:Stop()
     if self._Connections.Main == nil then

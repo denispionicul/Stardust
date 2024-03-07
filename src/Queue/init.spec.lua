@@ -8,7 +8,7 @@ return function()
 	    task.wait(5)
     end
 
-    describe("test", function()
+    describe("queue test", function()
         local Class = Queue.new()
 
         local Returned = nil
@@ -43,6 +43,56 @@ return function()
 
         it("should have a returned value", function()
             expect(Returned).to.equal(1)
+        end)
+
+        it("should run with args and return", function()
+            local Returned = false
+            
+            Class.Returned:Once(function()
+                Returned = true
+            end)
+
+            expect(function()
+                Class:Add(task.wait, 0)
+            end).never.to.throw()
+
+            task.wait(1)
+
+            expect(Returned).never.to.equal(nil)
+        end)
+
+        afterAll(function()
+            Class:Destroy()
+        end)
+    end)
+
+    describe("queue prompt test", function()
+        local Class = Queue.new()
+
+        it("should timeout", function()
+            local Fired = false
+
+            Class:Add(task.wait, 1)
+            Class:Add(function() 
+                Fired = true
+            end):Timeout(0.5)
+
+            task.wait(2)
+
+            expect(Fired).to.equal(false)
+        end)
+
+        it("should disconnect", function()
+            local Fired = false
+
+            Class:Add(task.wait, 5)
+            Class:Add(function() 
+                Fired = true
+            end):Destroy()
+
+            Class.Emptied:Wait()
+
+            expect(Fired).to.equal(false)
         end)
 
         afterAll(function()

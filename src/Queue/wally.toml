@@ -1,6 +1,6 @@
 [package]
 name = "denispionicul/queue"
-version = "1.1.0"
+version = "1.2.0"
 registry = "https://github.com/UpliftGames/wally-index"
 description = "Queue class for ordered function calling."
 realm = "shared"

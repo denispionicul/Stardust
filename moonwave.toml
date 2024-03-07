@@ -3,3 +3,7 @@ gitSourceBranch = "main"
 [[classOrder]]
 section = "Ploder"
 classes = ["Ploder", "PloderBehavior"]
+
+[[classOrder]]
+section = "Queue"
+classes = ["Queue", "QueuePrompt"]
