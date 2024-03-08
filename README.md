@@ -4,7 +4,7 @@ Stardust is a collection of utilities for Roblox.
 
 | Module/Doc | Wally | Description |
 | --- | --- | --- |
-| [Cooldown](https://denispionicul.github.io/Stardust/api/Cooldown) | `"denispionicul/cooldown@1.4.0"` | A debounce utility module. |
+| [Cooldown](https://denispionicul.github.io/Stardust/api/Cooldown) | `"denispionicul/cooldown@2.0.0"` | A debounce utility module. |
 | [Ploder](https://denispionicul.github.io/Stardust/api/Ploder) | `denispionicul/ploder@1.2.0` | Custom explosion class. |
 | [Queue](https://denispionicul.github.io/Stardust/api/Queue) | `"denispionicul/queue@1.2.0"` | Queue class for ordered function calling. |
 | [Stater](https://denispionicul.github.io/Stardust/api/Stater) | `denispionicul/stater@1.0.1` | A simple finite state machine. |

@@ -54,9 +54,9 @@ type Properties = {
 	LastActivation: number,
 	AutoReset: boolean,
 
-	OnReady: Signal.Signal,
-	OnSuccess: Signal.Signal,
-	OnFail: Signal.Signal,
+	OnReady: Signal.Signal<>,
+	OnSuccess: Signal.Signal<>,
+	OnFail: Signal.Signal<>,
 }
 
 local Cooldown: Module = {} :: Module
