@@ -5,11 +5,30 @@
     "$className": "DataModel",
 
     "ReplicatedStorage": {
-      "Modules": {
-        "$path": "src"
-      },
       "Packages": {
-        "$path": "Packages"
+        "$path": "Packages",
+
+        "Cooldown": {
+          "$path": "src/Cooldown"
+        },
+        "Countdown": {
+          "$path": "src/Countdown"
+        },
+        "Ploder": {
+          "$path": "src/Ploder"
+        },
+        "Queue": {
+          "$path": "src/Queue"
+        },
+        "SignalUtil": {
+          "$path": "src/SignalUtil"
+        },
+        "Stater": {
+          "$path": "src/Stater"
+        },
+        "Switch": {
+          "$path": "src/Switch"
+        }
       }
     },
 

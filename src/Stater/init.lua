@@ -1,24 +1,49 @@
 --!nonstrict
--- Version 1.0.2
+-- Version 1.0.2 indev
 
 -- Dependencies
-local Signal = require(script.Parent:FindFirstChild("Signal") or script.Signal)
-local Trove = require(script.Parent:FindFirstChild("Trove") or script.Trove)
+local Signal = require(script.Parent.Signal)
+local Trove = require(script.Parent.Trove)
 
 --[=[
     @class Stater
 
     Stater is a finite state machine module with the purpose of easing the creation of ai and npcs in games,
     Stater was built with the intent of being used in module scripts.
+
+    ```lua
+        local States = {}
+
+        function States.DoSomethingEnd(Data)
+            -- this will fire when the machine switches from the "DoSomething" state 
+        end
+
+        function States.DoSomething(Data)
+            -- do something with the data
+        end
+
+        function States.DoSomethingStart(Data)
+            -- this will fire when the machine switch to "DoSomething"
+            Data.Stater:SetState("SomethingDifferent")
+        end
+
+        local Data = {
+            Something = "Something",
+        }
+
+        Data.Stater = Stater.new(States, 0, Data)
+
+        Data.Stater:Start("DoSomething")
+    ```
 ]=]
 local Stater = {}
 Stater.__index = Stater
 
-function Stater:__tostring()
+function Stater:__tostring(): "Stater"
     return "Stater"
 end
 
-function Stater:__eq(Val)
+function Stater:__eq(Val: any): boolean
     return type(Val) == "table" and getmetatable(Val) == Stater and tostring(Val) == "Stater"
 end
 
@@ -43,11 +68,27 @@ end
     .StateAdded RBXScriptSignal -- A signal that fires whenever a state is removed via the Stater:RemoveState() method. Returns the State Name.
 ]=]
 
-type State<T> = (self: T?) -> boolean?
+type State<T = unknown> = (self: T) -> boolean?
 
-export type Stater<T> = {
-    States: {[string]: State<T>},
-    Info: { any? },
+type Module<T> = {
+    __index: Module<T>,
+    new: (States: { [string]: State<T> }, Tick: number?, Return: T?) -> Stater<T>,
+    __eq: (self: Stater<T>, Val: any) -> boolean,
+    __tostring: (self: Stater<T>) -> "Stater",
+
+    RemoveState: (self: Stater<T>, Name: string) -> (),
+    AddState: (self: Stater<T>, Name: string, State: State) -> (),
+    GetCurrentState: (self: Stater<T>) -> string?,
+    IsWorking: (self: Stater<T>) -> boolean,
+    SetState: (self: Stater<T>, Name: string) -> (),
+    Start: (self: Stater<T>, StartingState: string) -> (),
+    Stop: (self: Stater<T>) -> (),
+    Destroy: (self: Stater<T>) -> ()
+}
+
+type Properties<T> = {
+    States: { [string]: State<T> },
+    Info: { any },
     Tick: number?,
     Return: T,
     State: string,
@@ -57,16 +98,9 @@ export type Stater<T> = {
     StatusChanged: Signal.Signal<boolean>, -- ignore if this is underlined
     StateRemoved: Signal.Signal<string>, -- ignore if this is underlined
     StateAdded: Signal.Signal<string>, -- ignore if this is underlined
-
-    RemoveState: (self: Stater<T>, Name: string) -> nil,
-    AddState: (self: Stater<T>, Name: string, State: State<T>) -> nil,
-    GetCurrentState: (self: Stater<T>) -> string?,
-    IsWorking: (self: Stater<T>) -> boolean,
-    SetState: (self: Stater<T>, Name: string) -> nil,
-    Start: (self: Stater<T>, StartingState: string) -> nil,
-    Stop: (self: Stater<T>) -> nil,
-    Destroy: (self: Stater<T>) -> nil
 }
+
+export type Stater<T = unknown> = typeof(setmetatable({} :: Properties<T>, {} :: Module<T>))
 
 --[=[
     Returns a new Stater Object.
@@ -76,7 +110,7 @@ export type Stater<T> = {
     @param Tick -- Optional tick to be set.
     @param Return -- Determines what to return in the first parameter of each state.
 ]=]
-function Stater.new<T>(States: {[string]: State<T>} | Instance, Tick: number?, Return: T?): Stater<T>
+function Stater.new<T>(States: {[string]: State<T>}, Tick: number?, Return: T?): Stater<T>
     assert(type(States) == "table", "Please provide a valid table with the states.")
 
     local self = setmetatable({}, Stater)
@@ -185,7 +219,7 @@ function Stater:SetState(State: string)
 end
 
 --[=[
-    Begins the Stater
+    Begins the Stater.
 
     @param StartingState string -- The function name inside States represented by a string, this state will be set at the start.
     @error "No State" -- Happens when no State is provided.
