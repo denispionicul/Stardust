@@ -1,23 +1,29 @@
 --!strict
--- Version 1.2.0
+-- Version 1.3.0
 
 local Signal = require(script.Parent.Signal)
+local Promise = require(script.Parent.Promise)
 
 -- Types
+type Promise = typeof(Promise.new(function() end))
+
 type QueueFunc = { ((...unknown) -> ...unknown) | unknown }
 
 type QueueProperties = {
 	_Queue: { QueuePrompt },
 	_Task: thread?,
+	_FuncRan: Signal.Signal<QueuePrompt, { unknown }>,
 
-	Emptied: Signal.Signal,
-	Returned: Signal.Signal<...unknown>
+	Emptied: Signal.Signal<>,
+	Returned: Signal.Signal<...unknown>,
+	Switched: Signal.Signal<>
 }
 
 type QueueModule = {
 	__index: QueueModule,
 	new: () -> Queue,
 	Add: <T...>(self: Queue, func: (T...) -> ...any, T...) -> QueuePrompt,
+	PromiseAdd: <T...>(self: Queue, func: (T...) -> any, T...) -> Promise,
 	Destroy: (self: Queue) -> (),
 	Stop: (self: Queue) -> ()
 }
@@ -41,6 +47,7 @@ export type QueuePrompt = typeof(setmetatable({} :: QueuePromptProperties, {} ::
 
 --[=[
 	@class QueuePrompt
+	@since v1.2.0
 
 	This is what's returned from the Queue:Add() method. It can be used to add timeouts to the added function
 	or cancel it.
@@ -161,6 +168,20 @@ end
 	```
 ]=]
 
+--[=[
+	@prop Switched RBXScriptSignal
+	@within Queue
+	@since v1.3.0
+
+	Fires whenever the queue moves onto the next function.
+
+	```lua
+	QueueClass.Switched:Connect(function()
+		print("Queue moved onto the next function.")
+	end)
+	```
+]=]
+
 local Queue: QueueModule = {} :: QueueModule
 Queue.__index = Queue
 
@@ -174,14 +195,18 @@ function Queue:Add<T...>(func: (T...) -> ...any, ...: any): QueuePrompt
 	table.insert(self._Queue, QueuePromptInstance)
 
 	if self._Task == nil or coroutine.status(self._Task) == "dead" then
-		self._Task = task.spawn(function()
+		self._Task = task.defer(function()
 			repeat
+				self.Switched:Fire()
+
 				local QueueArray = self._Queue[1]
 				local Return = { QueueArray:_Run() }
 
 				if #Return ~= 0 then
 					self.Returned:Fire(table.unpack(Return))
 				end
+
+				self._FuncRan:Fire(QueueArray, Return)
 
 				table.remove(self._Queue, 1)
 			until #self._Queue == 0
@@ -191,6 +216,35 @@ function Queue:Add<T...>(func: (T...) -> ...any, ...: any): QueuePrompt
 	end
 
 	return QueuePromptInstance
+end
+
+--[=[
+	@within Queue
+	Adds a function to the queue, but instead of returning a QueuePrompt it returns a Promise.
+	The promise resolves with whatever the function returned once the function has ran inside the queue.
+	If the promise is canceled, it will remove itself from the queue.
+]=]
+function Queue:PromiseAdd<T...>(func: (T...) -> ...any, ...: any): Promise
+	local Args = { ... }
+
+	local Connection
+	local Promise = Promise.new(function(resolve, reject, onCancel)
+		local QueuePromptInstance = self:Add(func, table.unpack(Args))
+
+		Connection = self._FuncRan:Connect(function(GivenQueuePrompt, Return)  
+			if GivenQueuePrompt == QueuePromptInstance then
+				Connection:Disconnect()
+				resolve(table.unpack(Return))
+			end
+		end)
+
+		onCancel(function()
+			QueuePromptInstance:Destroy()
+			Connection:Disconnect()
+		end)
+	end)
+
+	return Promise
 end
 
 --[=[
@@ -217,9 +271,11 @@ function Queue.new(): Queue
 
 	self._Queue = {}
 	self._Task = nil
+	self._FuncRan = Signal.new()
 
 	self.Emptied = Signal.new()
 	self.Returned = Signal.new()
+	self.Switched = Signal.new()
 
 	return self
 end
@@ -231,6 +287,8 @@ end
 ]=]
 function Queue:Destroy()
 	self:Stop()
+	self._FuncRan:Destroy()
+	self.Switched:Destroy()
 	self.Returned:Destroy()
 	self.Emptied:Destroy()
 end
