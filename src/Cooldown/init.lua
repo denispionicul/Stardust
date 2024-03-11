@@ -1,5 +1,5 @@
 --!strict
---Version 2.0.0
+--Version 2.0.1
 
 --Dependencies
 local Signal = require(script.Parent.Signal)
@@ -270,7 +270,7 @@ function Cooldown:RunIf<Args...>(Predicate: boolean | () -> boolean, Callback: (
 	local Output = if PredicateType == "function" then (Predicate :: () -> boolean)() else Predicate
 
 	if Output then
-		return self:Run(Callback)
+		return self:Run(Callback, ...)
 	end
 
 	return false

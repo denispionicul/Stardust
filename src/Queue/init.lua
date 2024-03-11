@@ -14,9 +14,9 @@ type QueueProperties = {
 	_Task: thread?,
 	_FuncRan: Signal.Signal<QueuePrompt, { unknown }>,
 
-	Emptied: Signal.Signal<>,
+	Emptied: Signal.Signal<nil>,
 	Returned: Signal.Signal<...unknown>,
-	Switched: Signal.Signal<>
+	Switched: Signal.Signal<nil>
 }
 
 type QueueModule = {

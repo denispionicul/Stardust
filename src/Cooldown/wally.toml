@@ -1,6 +1,6 @@
 [package]
 name = "denispionicul/cooldown"
-version = "2.0.0"
+version = "2.0.1"
 registry = "https://github.com/UpliftGames/wally-index"
 realm = "shared"
 description = "Create debounces with ease."
