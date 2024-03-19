@@ -1,8 +1,8 @@
 [package]
 name = "denispionicul/stater"
-version = "1.0.1"
+version = "1.0.2"
 registry = "https://github.com/UpliftGames/wally-index"
-description = "A finite state machine module with a lot of features and customisability."
+description = "A simple finite state machine."
 realm = "shared"
 
 [dependencies]
