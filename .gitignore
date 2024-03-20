@@ -11,3 +11,4 @@ sourcemap.json
 /build
 node_modules
 index.d.ts
+/wally.lock
