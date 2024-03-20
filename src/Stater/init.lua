@@ -214,8 +214,9 @@ function Stater:SetState(State: string)
         EndOption(self.Return)
     end
 
-    self.State = State
-    self.Changed:Fire(State, self.State)
+	local OldState = self.State
+	self.State = State
+	self.Changed:Fire(State, OldState)
 end
 
 --[=[
