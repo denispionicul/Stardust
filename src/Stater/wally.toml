@@ -1,6 +1,6 @@
 [package]
 name = "denispionicul/stater"
-version = "1.0.2"
+version = "1.0.3"
 registry = "https://github.com/UpliftGames/wally-index"
 description = "A simple finite state machine."
 realm = "shared"

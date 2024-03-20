@@ -1,5 +1,5 @@
 --!nonstrict
--- Version 1.0.2
+-- Version 1.0.3
 
 -- Dependencies
 local Signal = require(script.Parent.Signal)
@@ -214,8 +214,9 @@ function Stater:SetState(State: string)
         EndOption(self.Return)
     end
 
+    local OldState = self.State
     self.State = State
-    self.Changed:Fire(State, self.State)
+    self.Changed:Fire(State, OldState)
 end
 
 --[=[
