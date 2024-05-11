@@ -42,5 +42,28 @@ return function()
             Signal:Destroy()
             expect(Connection.Connected).to.equal(false)
         end)
+
+        it("should filter an event", function()
+            local Signal = Instance.new("BindableEvent")
+            local Fired = false
+
+            local ClonedSignal = SignalUtil.FilterSignal(Signal, function(ShouldFire: boolean)  
+                return ShouldFire
+            end) :: BindableEvent
+            ClonedSignal.Event:Connect(function()
+                Fired = true
+            end)
+
+            Signal:Fire(false)
+
+            expect(Fired).to.equal(false)
+
+            Signal:Fire(true)
+
+            expect(Fired).to.equal(true)
+
+            ClonedSignal:Destroy()
+            Signal:Destroy()
+        end)
     end)
 end
