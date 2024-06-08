@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkdocs=self.webpackChunkdocs||[]).push([[263],{63891:s=>{s.exports=JSON.parse('{"sourceUrl":"https://github.com/denispionicul/Stardust/blob/main","baseUrl":"/Stardust/","classOrder":[{"section":"Queue","classes":["Queue","QueuePrompt"]}],"apiCategories":[]}')}}]);
