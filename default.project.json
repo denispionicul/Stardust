@@ -14,9 +14,6 @@
         "Countdown": {
           "$path": "src/Countdown"
         },
-        "Ploder": {
-          "$path": "src/Ploder"
-        },
         "Queue": {
           "$path": "src/Queue"
         },

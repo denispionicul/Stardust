@@ -206,11 +206,13 @@ function Cooldown.Reset(self: Cooldown, Delay: number?): number
 			self._Connections.OnReadyHandler:cancel()
 		end
 
-		self._Connections.OnReadyHandler = self._Trove:AddPromise(WaitFor.Custom(function()
-			return self:IsReady() or nil
-		end)):andThen(function()
-			self.OnReady:Fire()
-		end)
+		self._Connections.OnReadyHandler = self._Trove
+			:AddPromise(WaitFor.Custom(function()
+				return self:IsReady() or nil
+			end))
+			:andThen(function()
+				self.OnReady:Fire()
+			end)
 	end)
 
 	return self.Time + DelayNumber
