@@ -16,12 +16,6 @@ return function()
 		end)
 	end)
 
-	describe("Metamethods", function()
-		it("Should return a number", function()
-			expect(Cooldown + 10).to.be.a("number")
-		end)
-	end)
-
 	describe("Util Functions", function()
 		it("Should run with an if statement, print true", function()
             local Succed = false
@@ -42,9 +36,6 @@ return function()
 		it("Should result false when calling is ready.", function()
 			expect(Cooldown:IsReady()).to.equal(false)
 		end)
-		it("Should result true when calling Is", function()
-			expect(CooldownModule.Is(Cooldown)).to.equal(true)
-		end)
 		it("Should return the passed value", function()
 			task.wait(2)
 			local val = Cooldown:GetPassed()
@@ -57,6 +48,35 @@ return function()
 			local val = Cooldown:GetAlpha()
 
 			expect(val).to.be.near(0, 1)
+		end)
+
+		it("Should wrap a function", function()
+			Cooldown:Activate()
+			local Fired = 0
+			local Func = Cooldown:Wrap(function(Hi: "ok")  
+				Fired += 1
+				return "ok"
+			end)
+
+			Func("ok")
+			expect(Fired).to.equal(1)
+			Func("ok")
+			expect(Fired).to.equal(1)
+		end)
+
+		it("Should make a simple cooldown", function()
+			local Fired = 0
+			local Result = false
+			local Func = CooldownModule.Simple(0.10, function(Bool: boolean) 
+				Fired += 1 
+				return Bool
+			end)
+			
+			Result = Func(true)
+			expect(Result).to.equal(true)
+			Result = Func(false)
+			expect(Result).to.equal(false)
+			expect(Fired).to.equal(1)
 		end)
 	end)
 

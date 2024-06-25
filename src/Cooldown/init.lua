@@ -1,5 +1,5 @@
 --!strict
---Version 2.0.1
+--Version 2.1.0
 
 --Dependencies
 local Signal = require(script.Parent.Signal)
@@ -9,7 +9,7 @@ local WaitFor = require(script.Parent.WaitFor)
 --[=[
 	@class Cooldown
 
-	Countdown is a Debounce utility which helps with cooldowns.
+	Cooldown is a module that helps with creating debounces and, as the name implies, cooldowns.
 	Basic Usage:
 	```lua
 	local Cooldown = require(Path.Cooldown)
@@ -30,17 +30,28 @@ local WaitFor = require(script.Parent.WaitFor)
 	```
 ]=]
 
+type WrapFuncReturn<T..., R...> = typeof(setmetatable({}, {} :: {
+	__index: Cooldown,
+	__call: (T...) -> (boolean, R...)
+}))
+
 type Module = {
 	__index: Module,
 	new: (Time: number, AutoReset: boolean?) -> Cooldown,
 	Reset: (self: Cooldown, Delay: number?) -> number,
+	Activate: (self: Cooldown) -> (),
 	Run: <Args...>(self: Cooldown, Callback: (Args...) -> (), Args...) -> boolean,
 	RunIf: <Args...>(self: Cooldown, Predicate: boolean | () -> boolean, Callback: (Args...) -> (), Args...) -> boolean,
 	RunOrElse: (self: Cooldown, Callback: () -> (), Callback2: () -> ()) -> (),
+	Wrap: <T..., R...>(self: Cooldown, Function: (T...) -> R...) -> typeof(setmetatable({}, {} :: {
+		__index: Cooldown,
+		__call: (T...) -> (boolean, R...)
+	})), -- couldn't use WrapFuncReturn because it created a recursive type.
 	IsReady: (self: Cooldown) -> boolean,
 	GetPassed: (self: Cooldown, Clamped: boolean?) -> number,
 	GetAlpha: (self: Cooldown, Reversed: boolean?) -> number,
 	Destroy: (self: Cooldown) -> (),
+	Simple: <T..., R...>(Time: number, Function: (T...) -> R...) -> (T...) -> (boolean, R...),
 
 	__tostring: (self: Cooldown) -> "Cooldown",
 	__call: <Args...>(self: Cooldown, Callback: (Args...) -> (), Args...) -> boolean,
@@ -135,6 +146,23 @@ end
 
 Cooldown.__call = Cooldown.Run
 
+--[=[
+	Adds a cooldown to a function. It returns a copy of the function that always returns a boolean first, which is true
+	if the function ran or false if the function didn't run because of the cooldown.
+]=]
+function Cooldown.Simple<T..., R...>(Time: number, Function: (T...) -> (R...)): (T...) -> (boolean, R...)
+	local LastCall = 0
+
+	return function(...: T...)
+		if os.clock() - LastCall >= Time then
+			LastCall = os.clock()
+			return true, Function(...)
+		else
+			return false
+		end
+	end
+end
+
 -- Constructor and Methods
 --[=[
 	Returns a new Cooldown.
@@ -196,7 +224,7 @@ end
 	@param Delay number? -- The amount of delay to add to the Time
 	@return number -- The cooldown time + delay.
 ]=]
-function Cooldown.Reset(self: Cooldown, Delay: number?): number
+function Cooldown:Reset(Delay: number?): number
 	local DelayNumber = Delay or 0
 
 	self.LastActivation = os.clock() + DelayNumber
@@ -216,6 +244,14 @@ function Cooldown.Reset(self: Cooldown, Delay: number?): number
 	end)
 
 	return self.Time + DelayNumber
+end
+
+--[=[
+	Makes the cooldown ready again.
+]=]
+function Cooldown:Activate()
+	local CurrentClock = os.clock()
+	self.LastActivation = CurrentClock - (CurrentClock - self.Time) - 0.01 -- This 0.01 is to make sure it is 100% ready to run 
 end
 
 --[=[
@@ -311,9 +347,30 @@ function Cooldown:RunOrElse(Callback: () -> (), Callback2: () -> ())
 end
 
 --[=[
+	Wraps a cooldown class to a function (similar to [Cooldown.Simple]). It returns a Cooldown class that when called,
+	it will call Cooldown:Run() on the given function. When calling the cooldown class, the first return will always be
+	a boolean before the returns. If the function succesfully runs, the boolean while be true.
+]=]
+function Cooldown:Wrap<T..., R...>(Function: (T...) -> R...): WrapFuncReturn<T..., R...>
+	local CallFunc = function(...)
+		if self:IsReady() then
+			self:Reset()
+			return true, Function(...)
+		else
+			return false
+		end
+	end
+
+	return setmetatable({}, {
+		__index = self,
+		__call = CallFunc
+	})
+end
+
+--[=[
 	Returns a boolean indicating if the Cooldown is ready to :Run().
 ]=]
-function Cooldown:IsReady(): boolean
+function Cooldown:IsReady(): boolean	
 	return self:GetPassed() >= self.Time
 end
 
