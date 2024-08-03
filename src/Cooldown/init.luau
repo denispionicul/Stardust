@@ -349,7 +349,7 @@ end
 --[=[
 	Wraps a cooldown class to a function (similar to [Cooldown.Simple]). It returns a Cooldown class that when called,
 	it will call Cooldown:Run() on the given function. When calling the cooldown class, the first return will always be
-	a boolean before the returns. If the function succesfully runs, the boolean while be true.
+	a boolean before the returns. If the function succesfully runs, the boolean will be true.
 ]=]
 function Cooldown:Wrap<T..., R...>(Function: (T...) -> R...): WrapFuncReturn<T..., R...>
 	local CallFunc = function(...)

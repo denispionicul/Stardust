@@ -1,8 +1,8 @@
 [package]
 name = "denispionicul/countdown"
-version = "1.1.0"
+version = "1.2.0"
 registry = "https://github.com/UpliftGames/wally-index"
-description = "A modified version of rbxutil's timer module so that it includes a built in countdown"
+description = "A countdown module that uses rbxutil's timer internally."
 realm = "shared"
 
 [dependencies]

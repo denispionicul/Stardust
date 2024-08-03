@@ -9,6 +9,10 @@ type Module = {
 	__index: Module,
 	new: (Interval: number, StartingCount: number) -> Countdown,
 	Simple: (StartCount: number, CheckFunction: (Count: number) -> boolean, Interval: number?, IncrementNumber: number?, StartsNow: boolean?) -> any,
+	Start: (self: Countdown) -> (),
+	StartNow: (self: Countdown) -> (),
+	Stop: (self: Countdown) -> (),
+	IsRunning: (self: Countdown) -> boolean,
 	Destroy: (self: Countdown) -> ()
 }
 
@@ -20,7 +24,9 @@ type Properties = {
 	Increment: number,
 
 	OnFinish: Signal.Signal<nil>,
-	Tick: Signal.Signal<number>
+	Tick: Signal.Signal<number>,
+	Started: Signal.Signal<nil>,
+	Stopped: Signal.Signal<nil>
 }
 
 export type Countdown = typeof(setmetatable({} :: Properties, {} :: Module))
@@ -28,19 +34,21 @@ export type Countdown = typeof(setmetatable({} :: Properties, {} :: Module))
 --[=[
 	@interface Countdown
 	@within Countdown
-	.Timer Timer -- the [Timer](https://sleitnick.github.io/RbxUtil/api/Timer) object, should be used for starting the countdown and stopping it.
+	.Timer Timer -- the [Timer](https://sleitnick.github.io/RbxUtil/api/Timer) object, should be used for modifying things such as the Interval, TimeFunction, UpdateSignal and AllowDrift.
 	.Count number -- The current number the countdown is at
 	.MaxCount number -- The maximum the count can reach
 	.Increment number -- The amount that the count decreases every tick
 	
 	.OnFinish Signal -- Fires whenever the count reaches 0
 	.Tick Signal<number> -- Same as the [Timer.Tick](https://sleitnick.github.io/RbxUtil/api/Timer/#Tick) property, but with the guarantee that it will fire after the count updates, it also returns the current count as a parameter.
+	.Started Signal -- Fires whenever the :Start() or :StartNow() method is called.
+	.Stopped Signal -- Fires whenever :Stop() is called (or the countdown finished).
 ]=]
 
 --[=[
 	@class Countdown
 
-	Countdown is a useful class for managing, well, countdown. It is a modified version or [Rbxutil's Timer](https://sleitnick.github.io/RbxUtil/api/Timer).
+	Countdown is a useful class for managing, well, countdown. It uses [Rbxutil's Timer](https://sleitnick.github.io/RbxUtil/api/Timer) internally.
 ]=]
 local Countdown: Module = {} :: Module
 Countdown.__index = Countdown
@@ -99,6 +107,8 @@ function Countdown.new(Interval: number, StartingCount: number): Countdown
 
 	self.OnFinish = self._Trove:Construct(Signal)
 	self.Tick = self._Trove:Construct(Signal)
+	self.Started = self._Trove:Construct(Signal)
+	self.Stopped = self._Trove:Construct(Signal)
 
 	self._Trove:Connect(self.Timer.Tick, function()  
 		self.Count = math.clamp(self.Count - self.Increment, 0, self.MaxCount)
@@ -107,11 +117,45 @@ function Countdown.new(Interval: number, StartingCount: number): Countdown
 
 		if self.Count == 0 then
 			self.OnFinish:Fire()
-			self.Timer:Stop()
+			self:Stop()
 		end
 	end)
 
 	return self
+end
+
+function Countdown:IsRunning()
+	return self.Timer:IsRunning()
+end
+
+--[=[
+	Stops the countdown 
+]=]
+function Countdown:Stop()
+	if self:IsRunning() then
+		self.Stopped:Fire()
+	end
+	self.Timer:Stop()
+end
+
+--[=[
+	Starts the countdown and fires the .Tick signal immediately. 
+]=]
+function Countdown:StartNow()
+	if not self:IsRunning() then
+		self.Started:Fire()
+	end
+	self.Timer:StartNow()
+end
+
+--[=[
+	Starts the countdown. 
+]=]
+function Countdown:Start()
+	if not self:IsRunning() then
+		self.Started:Fire()
+	end
+	self.Timer:Start()
 end
 
 --[=[
@@ -119,7 +163,6 @@ end
 ]=]
 function Countdown:Destroy()
 	self._Trove:Destroy()
-	self = nil
 end
 
 
