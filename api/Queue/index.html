@@ -42,8 +42,8 @@ end)
 
 -- function 1 will run, then the 2nd one
 ```"><link data-rh="true" rel="canonical" href="https://denispionicul.github.io/Stardust/api/Queue"><link data-rh="true" rel="alternate" href="https://denispionicul.github.io/Stardust/api/Queue" hreflang="en"><link data-rh="true" rel="alternate" href="https://denispionicul.github.io/Stardust/api/Queue" hreflang="x-default"><link rel="stylesheet" href="/Stardust/assets/css/styles.19a5646f.css">
-<link rel="preload" href="/Stardust/assets/js/runtime~main.59a59e04.js" as="script">
-<link rel="preload" href="/Stardust/assets/js/main.6e0ec6f6.js" as="script">
+<link rel="preload" href="/Stardust/assets/js/runtime~main.661983bb.js" as="script">
+<link rel="preload" href="/Stardust/assets/js/main.54721418.js" as="script">
 </head>
 <body class="navigation-with-keyboard">
 <script>!function(){function e(e){document.documentElement.setAttribute("data-theme",e)}var t=function(){var e=null;try{e=localStorage.getItem("theme")}catch(e){}return e}();null!==t?e(t):window.matchMedia("(prefers-color-scheme: dark)").matches?e("dark"):(window.matchMedia("(prefers-color-scheme: light)").matches,e("light"))}()</script><div id="__docusaurus">
@@ -66,41 +66,41 @@ QueueClass<span class="token punctuation">:</span><span class="token function">A
 
 <span class="token comment">-- function 1 will run, then the 2nd one</span>
 </code></pre>
-</div></header><h2 class="anchor anchorWithStickyNavbar_LWe7" id="properties">Properties<a href="#properties" class="hash-link" aria-label="Direct link to Properties" title="Direct link to Properties">​</a></h2><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="Emptied"><code style="text-decoration:none">Emptied</code><a href="#Emptied" class="hash-link" aria-label="Direct link to Emptied" title="Direct link to Emptied">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/denispionicul/Stardust/blob/main/src/Queue/init.lua#L155"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Queue<!-- -->.<!-- -->Emptied<!-- -->:<!-- --> </code> <code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="https://developer.roblox.com/en-us/api-reference/datatype/RBXScriptSignal" target="_blank" rel="noopener noreferrer">RBXScriptSignal<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound" style="color:gray;vertical-align:middle;margin-left:2px"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></code></div><div>
+</div></header><h2 class="anchor anchorWithStickyNavbar_LWe7" id="properties">Properties<a href="#properties" class="hash-link" aria-label="Direct link to Properties" title="Direct link to Properties">​</a></h2><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="Emptied"><code style="text-decoration:none">Emptied</code><a href="#Emptied" class="hash-link" aria-label="Direct link to Emptied" title="Direct link to Emptied">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/denispionicul/Stardust/blob/main/src/Queue/init.luau#L155"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Queue<!-- -->.<!-- -->Emptied<!-- -->:<!-- --> </code> <code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="https://developer.roblox.com/en-us/api-reference/datatype/RBXScriptSignal" target="_blank" rel="noopener noreferrer">RBXScriptSignal<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound" style="color:gray;vertical-align:middle;margin-left:2px"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></code></div><div>
 <p>Fires whenever the queue runs out of functions.</p>
 <pre class="language-lua"><code class="language-lua">QueueClass<span class="token punctuation">.</span>Emptied<span class="token punctuation">:</span><span class="token function">Connect</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
 	<span class="token function">print</span><span class="token punctuation">(</span><span class="token string">"Queue emptied!"</span><span class="token punctuation">)</span>
 <span class="token keyword">end</span><span class="token punctuation">)</span>
 </code></pre>
-</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="Returned"><code style="text-decoration:none">Returned</code><a href="#Returned" class="hash-link" aria-label="Direct link to Returned" title="Direct link to Returned">​</a></h3><div class="repositoryDetailsContainer_BPdw"><span class="releaseVersion_EonW">since <!-- -->v1.1.0</span><a class="sourceButton_sEho" href="https://github.com/denispionicul/Stardust/blob/main/src/Queue/init.lua#L170"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Queue<!-- -->.<!-- -->Returned<!-- -->:<!-- --> </code> <code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="https://developer.roblox.com/en-us/api-reference/datatype/RBXScriptSignal" target="_blank" rel="noopener noreferrer">RBXScriptSignal<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound" style="color:gray;vertical-align:middle;margin-left:2px"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></code></div><div>
+</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="Returned"><code style="text-decoration:none">Returned</code><a href="#Returned" class="hash-link" aria-label="Direct link to Returned" title="Direct link to Returned">​</a></h3><div class="repositoryDetailsContainer_BPdw"><span class="releaseVersion_EonW">since <!-- -->v1.1.0</span><a class="sourceButton_sEho" href="https://github.com/denispionicul/Stardust/blob/main/src/Queue/init.luau#L170"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Queue<!-- -->.<!-- -->Returned<!-- -->:<!-- --> </code> <code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="https://developer.roblox.com/en-us/api-reference/datatype/RBXScriptSignal" target="_blank" rel="noopener noreferrer">RBXScriptSignal<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound" style="color:gray;vertical-align:middle;margin-left:2px"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></code></div><div>
 <p>Fires whenever a function in the queue returns a value.</p>
 <pre class="language-lua"><code class="language-lua">QueueClass<span class="token punctuation">.</span>Returned<span class="token punctuation">:</span><span class="token function">Connect</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">...</span><span class="token punctuation">)</span>
 	<span class="token function">print</span><span class="token punctuation">(</span><span class="token string">"Queue returned a value"</span> <span class="token punctuation">)</span>
 	<span class="token function">print</span><span class="token punctuation">(</span><span class="token punctuation">...</span><span class="token punctuation">)</span>
 <span class="token keyword">end</span><span class="token punctuation">)</span>
 </code></pre>
-</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="Switched"><code style="text-decoration:none">Switched</code><a href="#Switched" class="hash-link" aria-label="Direct link to Switched" title="Direct link to Switched">​</a></h3><div class="repositoryDetailsContainer_BPdw"><span class="releaseVersion_EonW">since <!-- -->v1.3.0</span><a class="sourceButton_sEho" href="https://github.com/denispionicul/Stardust/blob/main/src/Queue/init.lua#L184"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Queue<!-- -->.<!-- -->Switched<!-- -->:<!-- --> </code> <code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="https://developer.roblox.com/en-us/api-reference/datatype/RBXScriptSignal" target="_blank" rel="noopener noreferrer">RBXScriptSignal<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound" style="color:gray;vertical-align:middle;margin-left:2px"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></code></div><div>
+</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="Switched"><code style="text-decoration:none">Switched</code><a href="#Switched" class="hash-link" aria-label="Direct link to Switched" title="Direct link to Switched">​</a></h3><div class="repositoryDetailsContainer_BPdw"><span class="releaseVersion_EonW">since <!-- -->v1.3.0</span><a class="sourceButton_sEho" href="https://github.com/denispionicul/Stardust/blob/main/src/Queue/init.luau#L184"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Queue<!-- -->.<!-- -->Switched<!-- -->:<!-- --> </code> <code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="https://developer.roblox.com/en-us/api-reference/datatype/RBXScriptSignal" target="_blank" rel="noopener noreferrer">RBXScriptSignal<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound" style="color:gray;vertical-align:middle;margin-left:2px"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></code></div><div>
 <p>Fires whenever the queue moves onto the next function.</p>
 <pre class="language-lua"><code class="language-lua">QueueClass<span class="token punctuation">.</span>Switched<span class="token punctuation">:</span><span class="token function">Connect</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
 	<span class="token function">print</span><span class="token punctuation">(</span><span class="token string">"Queue moved onto the next function."</span><span class="token punctuation">)</span>
 <span class="token keyword">end</span><span class="token punctuation">)</span>
 </code></pre>
-</div><h2 class="anchor anchorWithStickyNavbar_LWe7" id="functions">Functions<a href="#functions" class="hash-link" aria-label="Direct link to Functions" title="Direct link to Functions">​</a></h2><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="new"><code style="text-decoration:none">new</code><a href="#new" class="hash-link" aria-label="Direct link to new" title="Direct link to new">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/denispionicul/Stardust/blob/main/src/Queue/init.lua#L269"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Queue<!-- -->.</code><code class="green_DgR4">new</code><code>(</code><code>) → </code><code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="/Stardust/api/Queue">Queue</a></code></div><div>
+</div><h2 class="anchor anchorWithStickyNavbar_LWe7" id="functions">Functions<a href="#functions" class="hash-link" aria-label="Direct link to Functions" title="Direct link to Functions">​</a></h2><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="new"><code style="text-decoration:none">new</code><a href="#new" class="hash-link" aria-label="Direct link to new" title="Direct link to new">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/denispionicul/Stardust/blob/main/src/Queue/init.luau#L269"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Queue<!-- -->.</code><code class="green_DgR4">new</code><code>(</code><code>) → </code><code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="/Stardust/api/Queue">Queue</a></code></div><div>
 <p>Returns a new queue.</p>
-</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="Add"><code style="text-decoration:none">Add</code><a href="#Add" class="hash-link" aria-label="Direct link to Add" title="Direct link to Add">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/denispionicul/Stardust/blob/main/src/Queue/init.lua#L192"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Queue<!-- -->:</code><code class="green_DgR4">Add</code><code>(</code><div class="inset_uKQm"><div><code>func<!-- -->: </code><code class="purple_ieR2">(</code><code class="blue_P4bS">T...</code><code class="purple_ieR2">)</code><code class="purple_ieR2"> → </code><code class="blue_P4bS">...any</code><code>,</code></div><div><code>...<!-- -->: </code><code class="blue_P4bS">any</code></div></div><code>) → </code><code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="/Stardust/api/QueuePrompt">QueuePrompt</a></code></div><div>
+</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="Add"><code style="text-decoration:none">Add</code><a href="#Add" class="hash-link" aria-label="Direct link to Add" title="Direct link to Add">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/denispionicul/Stardust/blob/main/src/Queue/init.luau#L192"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Queue<!-- -->:</code><code class="green_DgR4">Add</code><code>(</code><div class="inset_uKQm"><div><code>func<!-- -->: </code><code class="purple_ieR2">(</code><code class="blue_P4bS">T...</code><code class="purple_ieR2">)</code><code class="purple_ieR2"> → </code><code class="blue_P4bS">...any</code><code>,</code></div><div><code>...<!-- -->: </code><code class="blue_P4bS">any</code></div></div><code>) → </code><code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="/Stardust/api/QueuePrompt">QueuePrompt</a></code></div><div>
 <p>Adds a function to the queue.</p>
-</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="PromiseAdd"><code style="text-decoration:none">PromiseAdd</code><a href="#PromiseAdd" class="hash-link" aria-label="Direct link to PromiseAdd" title="Direct link to PromiseAdd">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/denispionicul/Stardust/blob/main/src/Queue/init.lua#L227"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Queue<!-- -->:</code><code class="green_DgR4">PromiseAdd</code><code>(</code><div class="inset_uKQm"><div><code>func<!-- -->: </code><code class="purple_ieR2">(</code><code class="blue_P4bS">T...</code><code class="purple_ieR2">)</code><code class="purple_ieR2"> → </code><code class="blue_P4bS">...any</code><code>,</code></div><div><code>...<!-- -->: </code><code class="blue_P4bS">any</code></div></div><code>) → </code><code class="blue_P4bS">Promise</code></div><div>
+</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="PromiseAdd"><code style="text-decoration:none">PromiseAdd</code><a href="#PromiseAdd" class="hash-link" aria-label="Direct link to PromiseAdd" title="Direct link to PromiseAdd">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/denispionicul/Stardust/blob/main/src/Queue/init.luau#L227"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Queue<!-- -->:</code><code class="green_DgR4">PromiseAdd</code><code>(</code><div class="inset_uKQm"><div><code>func<!-- -->: </code><code class="purple_ieR2">(</code><code class="blue_P4bS">T...</code><code class="purple_ieR2">)</code><code class="purple_ieR2"> → </code><code class="blue_P4bS">...any</code><code>,</code></div><div><code>...<!-- -->: </code><code class="blue_P4bS">any</code></div></div><code>) → </code><code class="blue_P4bS">Promise</code></div><div>
 <p>
   Adds a function to the queue, but instead of returning a QueuePrompt it returns a Promise.
   The promise resolves with whatever the function returned once the function has ran inside the queue.
   If the promise is canceled, it will remove itself from the queue.
 </p>
-</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="Stop"><code style="text-decoration:none">Stop</code><a href="#Stop" class="hash-link" aria-label="Direct link to Stop" title="Direct link to Stop">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/denispionicul/Stardust/blob/main/src/Queue/init.lua#L256"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Queue<!-- -->:</code><code class="green_DgR4">Stop</code><code>(</code><code>) → </code><code>(</code><code>)</code></div><div>
+</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="Stop"><code style="text-decoration:none">Stop</code><a href="#Stop" class="hash-link" aria-label="Direct link to Stop" title="Direct link to Stop">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/denispionicul/Stardust/blob/main/src/Queue/init.luau#L256"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Queue<!-- -->:</code><code class="green_DgR4">Stop</code><code>(</code><code>) → </code><code>(</code><code>)</code></div><div>
 <p>
   Clears all current functions in the queue and empties it.
   The emptied event won't fire in here.
 </p>
-</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="Destroy"><code style="text-decoration:none">Destroy</code><a href="#Destroy" class="hash-link" aria-label="Direct link to Destroy" title="Direct link to Destroy">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/denispionicul/Stardust/blob/main/src/Queue/init.lua#L288"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Queue<!-- -->:</code><code class="green_DgR4">Destroy</code><code>(</code><code>) → </code><code>(</code><code>)</code></div><div>
+</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="Destroy"><code style="text-decoration:none">Destroy</code><a href="#Destroy" class="hash-link" aria-label="Direct link to Destroy" title="Direct link to Destroy">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/denispionicul/Stardust/blob/main/src/Queue/init.luau#L288"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Queue<!-- -->:</code><code class="green_DgR4">Destroy</code><code>(</code><code>) → </code><code>(</code><code>)</code></div><div>
 <p>Destroys the queue.</p>
 </div></div></article></div><details><summary>Show raw api</summary><pre style="max-width:100%;white-space:pre-wrap">{
     &quot;functions&quot;: [
@@ -128,7 +128,7 @@ QueueClass<span class="token punctuation">:</span><span class="token function">A
             &quot;function_type&quot;: &quot;method&quot;,
             &quot;source&quot;: {
                 &quot;line&quot;: 192,
-                &quot;path&quot;: &quot;src/Queue/init.lua&quot;
+                &quot;path&quot;: &quot;src/Queue/init.luau&quot;
             }
         },
         {
@@ -155,7 +155,7 @@ QueueClass<span class="token punctuation">:</span><span class="token function">A
             &quot;function_type&quot;: &quot;method&quot;,
             &quot;source&quot;: {
                 &quot;line&quot;: 227,
-                &quot;path&quot;: &quot;src/Queue/init.lua&quot;
+                &quot;path&quot;: &quot;src/Queue/init.luau&quot;
             }
         },
         {
@@ -166,7 +166,7 @@ QueueClass<span class="token punctuation">:</span><span class="token function">A
             &quot;function_type&quot;: &quot;method&quot;,
             &quot;source&quot;: {
                 &quot;line&quot;: 256,
-                &quot;path&quot;: &quot;src/Queue/init.lua&quot;
+                &quot;path&quot;: &quot;src/Queue/init.luau&quot;
             }
         },
         {
@@ -182,7 +182,7 @@ QueueClass<span class="token punctuation">:</span><span class="token function">A
             &quot;function_type&quot;: &quot;static&quot;,
             &quot;source&quot;: {
                 &quot;line&quot;: 269,
-                &quot;path&quot;: &quot;src/Queue/init.lua&quot;
+                &quot;path&quot;: &quot;src/Queue/init.luau&quot;
             }
         },
         {
@@ -193,7 +193,7 @@ QueueClass<span class="token punctuation">:</span><span class="token function">A
             &quot;function_type&quot;: &quot;method&quot;,
             &quot;source&quot;: {
                 &quot;line&quot;: 288,
-                &quot;path&quot;: &quot;src/Queue/init.lua&quot;
+                &quot;path&quot;: &quot;src/Queue/init.luau&quot;
             }
         }
     ],
@@ -204,7 +204,7 @@ QueueClass<span class="token punctuation">:</span><span class="token function">A
             &quot;lua_type&quot;: &quot;RBXScriptSignal&quot;,
             &quot;source&quot;: {
                 &quot;line&quot;: 155,
-                &quot;path&quot;: &quot;src/Queue/init.lua&quot;
+                &quot;path&quot;: &quot;src/Queue/init.luau&quot;
             }
         },
         {
@@ -214,7 +214,7 @@ QueueClass<span class="token punctuation">:</span><span class="token function">A
             &quot;since&quot;: &quot;v1.1.0&quot;,
             &quot;source&quot;: {
                 &quot;line&quot;: 170,
-                &quot;path&quot;: &quot;src/Queue/init.lua&quot;
+                &quot;path&quot;: &quot;src/Queue/init.luau&quot;
             }
         },
         {
@@ -224,7 +224,7 @@ QueueClass<span class="token punctuation">:</span><span class="token function">A
             &quot;since&quot;: &quot;v1.3.0&quot;,
             &quot;source&quot;: {
                 &quot;line&quot;: 184,
-                &quot;path&quot;: &quot;src/Queue/init.lua&quot;
+                &quot;path&quot;: &quot;src/Queue/init.luau&quot;
             }
         }
     ],
@@ -233,10 +233,10 @@ QueueClass<span class="token punctuation">:</span><span class="token function">A
     &quot;desc&quot;: &quot;Queues are a collection of functions that run in order.\n\nBasic Usage:\n```lua\nlocal Queue = require(Path.to.Queue)\n\nlocal QueueClass = Queue.new()\n\nQueueClass:Add(function()\n\ttask.wait(5)\n\tprint(\&quot;function 1 finished!\&quot;)\nend)\n\nQueueClass:Add(function()\n\ttask.wait(10)\n\tprint(\&quot;function 2 finished!\&quot;)\nend)\n\n-- function 1 will run, then the 2nd one\n```&quot;,
     &quot;source&quot;: {
         &quot;line&quot;: 142,
-        &quot;path&quot;: &quot;src/Queue/init.lua&quot;
+        &quot;path&quot;: &quot;src/Queue/init.luau&quot;
     }
 }</pre></details></div><div class="col col--3"><div class="tableOfContents_bqdL thin-scrollbar"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#types" class="table-of-contents__link toc-highlight">Types</a></li><li><a href="#properties" class="table-of-contents__link toc-highlight">Properties</a><ul><li><a href="#Emptied" class="table-of-contents__link toc-highlight">Emptied</a></li><li><a href="#Returned" class="table-of-contents__link toc-highlight">Returned</a></li><li><a href="#Switched" class="table-of-contents__link toc-highlight">Switched</a></li></ul></li><li><a href="#functions" class="table-of-contents__link toc-highlight">Functions</a><ul><li><a href="#Add" class="table-of-contents__link toc-highlight">:Add</a></li><li><a href="#Destroy" class="table-of-contents__link toc-highlight">:Destroy</a></li><li><a href="#PromiseAdd" class="table-of-contents__link toc-highlight">:PromiseAdd</a></li><li><a href="#Stop" class="table-of-contents__link toc-highlight">:Stop</a></li><li><a href="#new" class="table-of-contents__link toc-highlight">.new</a></li></ul></li></ul></div></div></div></div></main></div></div><footer class="footer footer--dark"><div class="container container-fluid"><div class="footer__bottom text--center"><div class="footer__copyright">Copyright © 2024 denispionicul. Built with Moonwave and Docusaurus.</div></div></div></footer></div>
-<script src="/Stardust/assets/js/runtime~main.59a59e04.js"></script>
-<script src="/Stardust/assets/js/main.6e0ec6f6.js"></script>
+<script src="/Stardust/assets/js/runtime~main.661983bb.js"></script>
+<script src="/Stardust/assets/js/main.54721418.js"></script>
 </body>
 </html>
