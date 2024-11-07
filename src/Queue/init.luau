@@ -1,5 +1,5 @@
 --!strict
--- Version 1.3.0
+-- Version 1.4.0
 
 local Signal = require(script.Parent.Signal)
 local Promise = require(script.Parent.Promise)
@@ -10,18 +10,20 @@ type Promise = typeof(Promise.new(function() end))
 type QueueFunc = { ((...unknown) -> ...unknown) | unknown }
 
 type QueueProperties = {
-	_Queue: { QueuePrompt },
+	Queue: { QueuePrompt },
 	_Task: thread?,
 	_FuncRan: Signal.Signal<QueuePrompt, { unknown }>,
+	_DifferentPriorities: number,
 
-	Emptied: Signal.Signal<nil>,
+	Emptied: Signal.Signal<()>,
 	Returned: Signal.Signal<...unknown>,
-	Switched: Signal.Signal<nil>
+	Switched: Signal.Signal<QueuePrompt>
 }
 
 type QueueModule = {
 	__index: QueueModule,
 	new: () -> Queue,
+	_GetHighestPriorityPrompt: (self: Queue) -> (QueuePrompt, number),
 	Add: <T...>(self: Queue, func: (T...) -> ...any, T...) -> QueuePrompt,
 	PromiseAdd: <T...>(self: Queue, func: (T...) -> any, T...) -> Promise,
 	Destroy: (self: Queue) -> (),
@@ -32,13 +34,16 @@ export type Queue = typeof(setmetatable({} :: QueueProperties, {} :: QueueModule
 
 type QueuePromptProperties = {
 	Func: QueueFunc,
-	Queue: Queue
+	Queue: Queue,
+	Priority: number,
+	Running: boolean,
 }
 
 type QueuePromptModule = {
 	__index: QueuePromptModule,
 	new: (Queue: Queue, QueueFunc: QueueFunc) -> QueuePrompt,
 	Timeout: (self: QueuePrompt, time: number) -> QueuePrompt,
+	SetPriority: (self: QueuePrompt, Value: number) -> QueuePrompt,
 	_Run: (self: QueuePrompt) -> ...unknown,
 	Destroy: (self: QueuePrompt) -> ()
 }
@@ -77,7 +82,33 @@ export type QueuePrompt = typeof(setmetatable({} :: QueuePromptProperties, {} ::
 local QueuePrompt: QueuePromptModule = {} :: QueuePromptModule
 QueuePrompt.__index = QueuePrompt
 
+--[=[
+	@within QueuePrompt
+	Sets the queue priority. When a queue goes to the next prompt, it'll pick the one with the highest Priority.
+]=]
+function QueuePrompt:SetPriority(Value: number)
+	if Value == self.Priority then
+		return self
+	end
+
+	self.Priority = Value
+
+	if Value ~= 1 then
+		self.Queue._DifferentPriorities += 1
+	else
+		self.Queue._DifferentPriorities -= 1
+	end
+
+	return self
+end
+
 function QueuePrompt:_Run(): ...unknown
+	self.Running = true
+
+	if self.Priority ~= 1 then
+		self.Queue._DifferentPriorities -= 1
+	end
+
 	return (self.Func[1] :: () -> ...unknown)(table.unpack(self.Func, 2))
 end
 
@@ -94,11 +125,29 @@ function QueuePrompt:Timeout(time: number): QueuePrompt
 	return self
 end
 
+--[=[
+	@prop Running boolean
+	@within QueuePrompt
+	@since v1.4.0
+	
+	A boolean representing if the current function is running
+]=]
+
+--[=[
+	@prop Priority number
+	@within QueuePrompt
+	@since v1.4.0
+	@readonly
+	
+	The queue's priority.
+]=]
 function QueuePrompt.new(Queue: Queue, QueueFunc: QueueFunc): QueuePrompt
 	local self = setmetatable({}, QueuePrompt)
 
 	self.Func = QueueFunc
 	self.Queue = Queue
+	self.Priority = 1
+	self.Running = false
 
 	return self
 end
@@ -108,10 +157,14 @@ end
 	Disconnects the function immediately
 ]=]
 function QueuePrompt:Destroy()
-	local Index = table.find(self.Queue._Queue, self)
+	local Index = table.find(self.Queue.Queue, self)
+
+	if self.Priority ~= 1 and not self.Running then
+		self.Queue._DifferentPriorities -= 1
+	end
 
 	if Index then
-		table.remove(self.Queue._Queue, Index)
+		table.remove(self.Queue.Queue, Index)
 	end
 end
 
@@ -138,6 +191,14 @@ end
 
 	-- function 1 will run, then the 2nd one
 	```
+]=]
+
+--[=[
+	@prop Queue { QueuePrompt }
+	@within Queue
+	@since v1.4.0
+
+	A table of the current prompts that are in queue
 ]=]
 
 --[=[
@@ -174,16 +235,34 @@ end
 	@since v1.3.0
 
 	Fires whenever the queue moves onto the next function.
+	Gives the queue prompt as the parameter
 
 	```lua
-	QueueClass.Switched:Connect(function()
-		print("Queue moved onto the next function.")
+	QueueClass.Switched:Connect(function(Prompt)
+		print("Queue moved onto the next function.", Prompt.Priority)
 	end)
 	```
 ]=]
-
 local Queue: QueueModule = {} :: QueueModule
 Queue.__index = Queue
+
+function Queue:_GetHighestPriorityPrompt(): (QueuePrompt, number)
+	if self._DifferentPriorities == 0 then
+		return self.Queue[1], 1
+	end
+
+	local BestQueue, Priority, Index = nil, 0, 1
+
+	for QueueIndex, Prompt in self.Queue do
+		if Prompt.Priority > Priority then
+			BestQueue = Prompt
+			Priority = Prompt.Priority
+			Index = QueueIndex
+		end
+	end
+
+	return BestQueue :: QueuePrompt, Index
+end
 
 --[=[
 	@within Queue
@@ -192,14 +271,13 @@ Queue.__index = Queue
 function Queue:Add<T...>(func: (T...) -> ...any, ...: any): QueuePrompt
 	local QueuePromptInstance = QueuePrompt.new(self, { func, ... }) 
 
-	table.insert(self._Queue, QueuePromptInstance)
+	table.insert(self.Queue, QueuePromptInstance)
 
 	if self._Task == nil or coroutine.status(self._Task) == "dead" then
 		self._Task = task.defer(function()
 			repeat
-				self.Switched:Fire()
-
-				local QueueArray = self._Queue[1]
+				local QueueArray, Index = self:_GetHighestPriorityPrompt()
+				self.Switched:Fire(QueueArray)
 				local Return = { QueueArray:_Run() }
 
 				if #Return ~= 0 then
@@ -208,8 +286,14 @@ function Queue:Add<T...>(func: (T...) -> ...any, ...: any): QueuePrompt
 
 				self._FuncRan:Fire(QueueArray, Return)
 
-				table.remove(self._Queue, 1)
-			until #self._Queue == 0
+				if self.Queue[Index] ~= QueueArray then
+					Index = table.find(self.Queue, QueueArray) :: number
+				end
+
+				if Index then
+					table.remove(self.Queue, Index)
+				end
+			until #self.Queue == 0
 
 			self.Emptied:Fire()
 		end)
@@ -258,7 +342,7 @@ function Queue:Stop()
 		task.cancel(self._Task)
 	end
 
-	table.clear(self._Queue)
+	table.clear(self.Queue)
 end
 
 --[=[
@@ -269,8 +353,9 @@ end
 function Queue.new(): Queue
 	local self = setmetatable({}, Queue)
 
-	self._Queue = {}
+	self.Queue = {}
 	self._Task = nil
+	self._DifferentPriorities = 0
 	self._FuncRan = Signal.new()
 
 	self.Emptied = Signal.new()
@@ -293,4 +378,6 @@ function Queue:Destroy()
 	self.Emptied:Destroy()
 end
 
-return Queue
+return {
+	new = Queue.new,
+}

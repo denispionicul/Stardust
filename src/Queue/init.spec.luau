@@ -38,7 +38,7 @@ return function()
 			Class:Add(function() end)
 
 			Class:Stop()
-			expect(#Class._Queue).to.equal(0)
+			expect(#Class.Queue).to.equal(0)
 		end)
 
 		it("should have a returned value", function()
@@ -93,6 +93,23 @@ return function()
 			Class.Emptied:Wait()
 
 			expect(Fired).to.equal(false)
+		end)
+
+		it("should respect priorities", function()
+			local Val = 0
+			
+			Class:Stop()
+			Class:Add(task.wait, 5)
+			Class:Add(function() 
+				Val = 1
+			end)
+			Class:Add(function() 
+				Val = 2
+			end):SetPriority(2)
+
+			Class.Emptied:Wait()
+
+			expect(Val).to.equal(1)
 		end)
 
 		afterAll(function()

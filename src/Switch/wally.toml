@@ -1,8 +1,0 @@
-[package]
-name = "denispionicul/switch"
-version = "1.0.0"
-registry = "https://github.com/UpliftGames/wally-index"
-description = "Java switches ported to lua."
-realm = "shared"
-
-[dependencies]

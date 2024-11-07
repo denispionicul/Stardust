@@ -8,8 +8,7 @@ local Trove = require(script.Parent.Trove)
 --[=[
     @class Stater
 
-    Stater is a finite state machine module with the purpose of easing the creation of ai and npcs in games,
-    Stater was built with the intent of being used in module scripts.
+    Stater is a finite state machine module with the purpose of making simple ai.
 
     ```lua
         local States = {}
